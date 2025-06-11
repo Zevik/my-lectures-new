@@ -1180,7 +1180,6 @@
 
             <div class="quote-display" id="quoteDisplay">
                 <div class="quote-text" id="quoteText"></div>
-                <button class="quote-close" onclick="closeQuote()">סגור</button>
             </div>
 
             <section class="intro fade-in-on-scroll" id="about">
@@ -1701,13 +1700,13 @@
         // Smart quote functionality
         document.getElementById('smartSquare').addEventListener('click', function() {
             const randomQuote = smartQuotes[Math.floor(Math.random() * smartQuotes.length)];
-            showQuote(randomQuote, 'smart');
+            showQuoteWithAutoClose(randomQuote, 'smart');
         });
 
         // Funny joke functionality
         document.getElementById('funnySquare').addEventListener('click', function() {
             const randomJoke = funnyJokes[Math.floor(Math.random() * funnyJokes.length)];
-            showQuote(randomJoke, 'funny');
+            showQuoteWithAutoClose(randomJoke, 'funny');
         });
 
         function showQuote(text, type) {
@@ -1718,33 +1717,56 @@
             display.className = `quote-display ${type} show`;
         }
 
+        let quoteTimeout;
+
         function closeQuote() {
             const display = document.getElementById('quoteDisplay');
             display.classList.remove('show');
+            if (quoteTimeout) {
+                clearTimeout(quoteTimeout);
+            }
         }
 
-        // Close quote on background click
-        document.getElementById('quoteDisplay').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeQuote();
+        // Auto close after 5 seconds and on scroll
+        function showQuoteWithAutoClose(text, type) {
+            showQuote(text, type);
+            
+            // Clear existing timeout
+            if (quoteTimeout) {
+                clearTimeout(quoteTimeout);
             }
-        });
+            
+            // Set new timeout for 5 seconds
+            quoteTimeout = setTimeout(closeQuote, 5000);
+            
+            // Add scroll listener for auto-close
+            const scrollHandler = () => {
+                closeQuote();
+                window.removeEventListener('scroll', scrollHandler);
+            };
+            window.addEventListener('scroll', scrollHandler);
+        }
 
         // Rotating text click animation
-        document.getElementById('rotatingText').addEventListener('click', function() {
-            const text = this;
-            const container = document.getElementById('particlesContainer');
+        document.addEventListener('DOMContentLoaded', function() {
+            const rotatingText = document.getElementById('rotatingText');
+            if (rotatingText) {
+                rotatingText.addEventListener('click', function() {
+                    const text = this;
+                    const container = document.getElementById('particlesContainer');
 
-            // Create enhanced particles
-            createEnhancedParticles(container);
+                    // Create enhanced particles
+                    createEnhancedParticles(container);
 
-            // Add text pulse effect
-            text.style.transform = 'scale(1.3)';
-            text.style.color = '#ff0000';
-            setTimeout(() => {
-                text.style.transform = '';
-                text.style.color = '#ff4444';
-            }, 300);
+                    // Add text pulse effect
+                    text.style.transform = 'scale(1.3)';
+                    text.style.color = '#ff0000';
+                    setTimeout(() => {
+                        text.style.transform = '';
+                        text.style.color = '#ff4444';
+                    }, 300);
+                });
+            }
         });
 
         function createEnhancedParticles(container) {
