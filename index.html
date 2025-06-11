@@ -399,6 +399,115 @@
             z-index: 20;
         }
 
+        /* Interactive squares */
+        .interactive-squares {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 300px;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .quote-square {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            pointer-events: all;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.3);
+            font-weight: bold;
+            font-size: 14px;
+            text-align: center;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .smart-square {
+            top: 50%;
+            right: -150px;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .funny-square {
+            top: 50%;
+            left: -150px;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .quote-square:hover {
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        .quote-display {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            max-width: 500px;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            border: 3px solid;
+            text-align: center;
+        }
+
+        .quote-display.smart {
+            border-color: #667eea;
+        }
+
+        .quote-display.funny {
+            border-color: #f5576c;
+        }
+
+        .quote-display.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .quote-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .quote-close {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .quote-close:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
         @keyframes enhancedFloat {
             0% {
                 opacity: 1;
@@ -979,6 +1088,21 @@
                     <div class="rotating-text" id="rotatingText">לחצו עלי ללייק ❤️</div>
                     <div class="particles-container" id="particlesContainer"></div>
                 </div>
+                <div class="interactive-squares">
+                    <div class="quote-square smart-square" id="smartSquare">
+                        <div>💡</div>
+                        <div>תגיד משהו חכם</div>
+                    </div>
+                    <div class="quote-square funny-square" id="funnySquare">
+                        <div>😄</div>
+                        <div>תצחיק אותי</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quote-display" id="quoteDisplay">
+                <div class="quote-text" id="quoteText"></div>
+                <button class="quote-close" onclick="closeQuote()">סגור</button>
             </div>
 
             <section class="intro fade-in-on-scroll" id="about">
@@ -1270,6 +1394,258 @@
             const originalText = subtitle.textContent;
             typeWriter(subtitle, originalText, 80);
         }, 1000);
+
+        // Smart quotes and funny jokes database
+        const smartQuotes = [
+            "החכמה היא לדעת מה לעשות הבא. המיומנות היא לדעת איך לעשות זאת. והסגולה היא לעשות זאת.",
+            "הדרך הטובה ביותר לחזות את העתיד היא ליצור אותו.",
+            "השקעה בידע משלמת את הרבית הטובה ביותר.",
+            "לא הכישלון הוא הבעיה, אלא השאיפה הנמוכה.",
+            "החינוך הוא הנשק החזק ביותר שאתה יכול להשתמש בו כדי לשנות את העולם.",
+            "הדרך היחידה לעשות עבודה נהדרת היא לאהוב את מה שאתה עושה.",
+            "התחל איפה שאתה, השתמש במה שיש לך, עשה מה שאתה יכול.",
+            "הצלחה היא לילך מכישלון לכישלון מבלי לאבד את החידוד.",
+            "אל תבזבז את זמנך לחיות את החיים של מישהו אחר.",
+            "החיים הם 10% מה שקורה לך ו-90% איך אתה מגיב לזה.",
+            "אם אתה רוצה משהו שמעולם לא היה לך, אתה חייב לעשות משהו שמעולם לא עשית.",
+            "הדמיון חשוב יותר מהידע.",
+            "אל תחכה להזדמנות - צור אותה.",
+            "הפחד הגדול ביותר שלנו אינו שאנחנו לא מסוגלים, הפחד הגדול ביותר שלנו הוא שאנחנו עוצמתיים מעבר למידה.",
+            "הדרך להתחיל היא להפסיק לדבר ולהתחיל לעשות.",
+            "אין דרך לשלום, השלום הוא הדרך.",
+            "תמיד נראה בלתי אפשרי עד שזה נעשה.",
+            "אל תספר לאנשים את החלומות שלך, הראה להם.",
+            "הזמן הטוב ביותר לשתול עץ היה לפני 20 שנה. הזמן השני הטוב ביותר הוא עכשיו.",
+            "אם אתה לא יכול לעשות דברים גדולים, עשה דברים קטנים בדרך גדולה.",
+            "המונע היחיד לעושר הוא החשיבה שלך.",
+            "אתה צריך להיות השינוי שאתה רוצה לראות בעולם.",
+            "החיים קצרים מדי להיות קטנים.",
+            "הצלחה היא הולכת מכישלון לכישלון מבלי לאבד התלהבות.",
+            "אל תשפוט כל יום לפי הקציר שאתה קוצר אלא לפי הזרעים שאתה זורע.",
+            "הבעיה היא לא שיש לנו מעט זמן, הבעיה היא שאנחנו מבזבזים הרבה מזה.",
+            "הדרך היחידה לעשות עבודה נהדרת היא לאהוב את מה שאתה עושה.",
+            "לא תוכל לחצות את הים רק על ידי הסתכלות על המים.",
+            "הכל נראה בלתי אפשרי עד שזה נעשה.",
+            "אל תלמד להצליח, למד ליצור ערך.",
+            "מנהיג גדול לוקח אנשים למקום שהם לא בהכרח רוצים ללכת, אבל צריכים להיות.",
+            "השקעה בעצמך היא השקעה הטובה ביותר שתוכל לעשות.",
+            "אל תחכה לרגע המושלם, קח את הרגע ועשה אותו מושלם.",
+            "אין דבר כזה כישלון, יש רק משוב.",
+            "הדרך להצליח היא להתחיל.",
+            "חזון בלי פעולה הוא חלום. פעולה בלי חזון היא סיוט.",
+            "אם אתה עובד על משהו שאתה מתלהב ממנו, אתה לא צריך להיות מונע.",
+            "הפסד קטן עדיף על ניצחון מביש.",
+            "הדרך הטובה ביותר למצוא את עצמך היא לאבד את עצמך בשירות לאחרים.",
+            "אתה לא יכול לשנות את כיוון הרוח, אבל תוכל להתאים את המפרש.",
+            "החיים מתחילים בסוף אזור הנוחות שלך.",
+            "הבעיה היא לא בבעיה, הבעיה היא ביחס שלך לבעיה.",
+            "אם אתה חושב שאתה יכול או שאתה לא יכול, כנראה שאתה צודק.",
+            "הדרך היחידה לגלות את גבולות האפשר היא להרחיק לכת מעבר להם אל הבלתי אפשר.",
+            "תתן לכישלון שלך ללמד אותך, לא להשתיק אותך.",
+            "אל תשווה את התחלה שלך לאמצע של מישהו אחר.",
+            "כל מומחה היה פעם מתחיל.",
+            "ההבדל בין הרגיל לחריג הוא אותה מילה קטנה - 'אקסטרה'.",
+            "מי שלא מעז, לא זוכה.",
+            "דרך אלף קילומטר מתחילה בצעד אחד.",
+            "בלתי אפשרי זה רק דעה.",
+            "הצלחה היא לא סופית, כישלון הוא לא קטלני, האומץ להמשיך הוא מה שחשוב.",
+            "אל תיתן לאתמול לתפוס יותר מדי ממחר.",
+            "החלום הוא נקודת התחלה של כל הישג.",
+            "הדרך הטובה ביותר לחזות את העתיד היא ליצור אותו.",
+            "אתה גדול מכל האתגרים שלך.",
+            "עושר אמיתי הוא להיות מרוצה עם מה שיש לך.",
+            "הכוח האמיתי הוא בדברים הקטנים שאתה עושה כל יום.",
+            "הבה נפסיק לומר 'אם רק' ונתחיל לומר 'מהיום'.",
+            "זמן הוא הנכס היקר ביותר שלנו - השתמש בו בחכמה.",
+            "האושר הוא לא יעד, זה דרך חיים.",
+            "המטרה של החיים היא לחיות, ולחיות פירושו להיות מודע, בשמחה, בחגיגה.",
+            "כל יום הוא הזדמנות חדשה. אתה לא יכול לשנות את העבר, אבל יכול לשנות את העתיד.",
+            "הבן כי כל דבר קשה הוא הזדמנות להתחזק.",
+            "אמונה בעצמך היא הסוד הראשון להצלחה.",
+            "הדרך להגיע למקום שאליו אתה רוצה ללכת מתחילה במקום שבו אתה נמצא עכשיו.",
+            "מנהיגות היא לא על כך שאתה מושלם, אלא על כך שאתה אותנטי.",
+            "אל תפחד לוותר על הטוב כדי ללכת אחרי הנהדר.",
+            "המילה 'בלתי אפשרי' לא צרפתית.",
+            "אתה לא צריך להיות גדול כדי להתחיל, אבל אתה צריך להתחיל כדי להיות גדול.",
+            "העתיד שייך לאלה שמאמינים ביופי של החלומות שלהם.",
+            "אל תמתין לנסיבות המושלמות, כי הן לעולם לא יגיעו.",
+            "הצלחה היא שנה אחר שנה של מאמץ מתמיד בכיוון הנכון.",
+            "אין דרכים קלות מכאן לשם שמאיפה שהוא שווה ללכת.",
+            "החיים הם מסע, לא יעד. תהנה מהדרך.",
+            "אתה יכול להיות כל מה שאתה רוצה להיות אם אתה מוכן לעבוד עבור זה.",
+            "הבעיות הן מתנות, הן מעירות אותנו לחיים.",
+            "אל תהיה עובד בחלומות של אחרים, תהיה הבוס של החלומות שלך.",
+            "הדרך להפוך לחזק היא להתמודד עם הדברים שמפחידים אותך.",
+            "אתה לא צריך להיות גאון כדי להצליח, אתה צריך להיות עקבי.",
+            "הזמן הטוב ביותר להתחיל היה אתמול. הזמן השני הטוב ביותר הוא עכשיו.",
+            "אל תיתן לאחרים להחליט בשבילך מה אתה יכול ומה אתה לא יכול.",
+            "הבה נזכור: ספר אחד, עט אחד, ילד אחד ומורה אחד יכולים לשנות את העולם.",
+            "אתה לא יכול לחבר את הנקודות להסתכל קדימה, אתה יכול רק לחבר אותן בהסתכלות אחורה.",
+            "הדרך היחידה לעשות דבר טוב היא לאהוב את מה שאתה עושה.",
+            "אל תשפוט את הצלחתך בהשוואה לאחרים. שפוט אותו בהשוואה למה שהיית מסוגל להשיג.",
+            "החיים מתחילים בסוף אזור הנוחות שלך.",
+            "אם אתה חושב קטן, התוצאות שלך יהיו קטנות. אם אתה חושב גדול, התוצאות יהיו גדולות.",
+            "אל תהיה נר שמאיר לאחרים ושורף את עצמו, למד להיות שמש שמאירה ומחממת את כולם.",
+            "הדרך להיות מאושר היא לעשות מישהו אחר מאושר.",
+            "אתה לא יכול לשלוט על מה שקורה לך, אבל אתה יכול לשלוט על איך אתה מגיב לזה.",
+            "אל תיתן לאתמול לקחת יותר מדי ממחר.",
+            "אמונה היא לעשות את הצעד הראשון גם כשאתה לא רואה את כל המדרגות.",
+            "הקושי הוא מה שעושה אותנו חזקים. הקלות הוא מה שעושה אותנו חלשים.",
+            "אל תמתין לדרך המושלמת, תפוס את הדרך ועשה אותה מושלמת.",
+            "החלום הגדול ביותר שלך צריך להפחיד אותך ולעורר אותך בו זמנית.",
+            "אתה יותר חזק ממה שאתה חושב ויותר מוכשר ממה שאתה מאמין.",
+            "הדרך הטובה ביותר להתגבר על הפחד היא לעמוד מולו.",
+            "אל תיתן לאף אחד להגיד לך שאתה לא יכול לעשות משהו.",
+            "התשוקה היא האנרגיה שמניעה אותנו להשיג את החלומות שלנו.",
+            "כל מה שאתה צריך זה תכנית, כביש ואומץ לעצור על הגז.",
+            "אתה לא צריך להיות מושלם כדי להיות מדהים.",
+            "הדרך להצליח היא להתחיל. הדרך להתחיל היא לחלק את המשימות המורכבות למשימות קטנות וניתנות לביצוע ואז להתחיל עם הראשונה."
+        ];
+
+        const funnyJokes = [
+            "למה המחשב הלך לרופא? כי היה לו וירוס!",
+            "מה ההבדל בין אפליקציה לתינוק? האפליקציה קורסת רק מדי פעם.",
+            "למה המתכנת לבש משקפיים? כי הוא לא יכול היה לראות שארפ (C#)!",
+            "איך קוראים לכלב שעובד ב-IT? לאב-רדור!",
+            "למה המחשב היה קר? כי הוא השאיר את החלונות (Windows) פתוחים!",
+            "מה אמר המתכנת כשהוא סיים את הקוד? 'זה עובד בסביבה שלי!'",
+            "למה השף לא יכול לתכנת? כי הוא רק יודע לעשות קוקיז (cookies)!",
+            "איך AI הזמין פיצה? 'אני רוצה פיצה עם מהלך למידה עמוק וטופינג של רשתות נוירונים'",
+            "מה ההבדל בין תוכנה למציאות? בתוכנה, התחכמת יכולה להיות באג!",
+            "למה המתכנת לא יכול היה לישון? כי היו לו לולאות אינסופיות בראש!",
+            "איך קוראים לדג שתכנת? קוד-פיש!",
+            "מה אמר המחשב לעכבר? 'תלחץ על הכפתור שלי!'",
+            "למה המחשב הפך לרופא? כי הוא היה מומחה לאבחון בעיות!",
+            "מה ההבדל בין מתכנת לקוסם? הקוסם עושה כשפים עם קסמים, המתכנת עושה קסמים עם באגים!",
+            "איך מתכנת פותח בקבוק יין? עם חולץ-קוד!",
+            "למה המתכנת לא אהב לשחק קלפים? כי הוא פחד מ-stack overflow!",
+            "מה אמר הנתב לחבר שלו? 'אני מרגיש disconnected לאחרונה'",
+            "למה המתכנת תמיד מאושר? כי הוא חי בעולם של אובייקטים!",
+            "איך קוראים לזומבי שמתכנת? Un-dead code!",
+            "מה ההבדל בין בטריה למתכנת? הבטריה יכולה להחזיק מטען!",
+            "למה המתכנת לא הצליח בבישול? כי הוא חיפש את הבאגים במתכונים!",
+            "איך מתכנת עורך טקס חתונה? 'האם אתה רוצה לקמפל איתה?'",
+            "מה אמר ה-CSS ל-HTML? 'אתה יפה בלעדיי!'",
+            "למה המתכנת לא יכול היה לישון? כי היה לו try-catch block ברחובות!",
+            "איך קוראים למתכנת שאוהב לרוץ? מרתון-דאטה!",
+            "מה ההבדל בין Java לקפה? קפה נותן לך אנרגיה, Java לוקח אותה!",
+            "למה המחשב הלך לכושר? כי רצה לשפר את הביצועים שלו!",
+            "איך מתכנת קונה ביגוד? לפי האלגוריתם של 'אם זה מתאים, קני!'",
+            "מה אמר המתכנת כשנפל לו המחשב? 'זה crash!'",
+            "למה ה-WiFi כעס? כי כולם האשימו אותו בחיבור חלש!",
+            "איך קוראים לדבורה שמתכנתת? ביי-ביי!",
+            "מה ההבדל בין פרוגרמר למטפל? המטפל מקשיב לבעיות של אנשים!",
+            "למה המתכנת השתמש במטרייה? כי הוא שמע שיהיה Java-storm!",
+            "איך מתכנת אוכל פיצה? עם פורק (fork) בגיט!",
+            "מה אמר המחשב כשהוא התעורר? 'בוקר טוב, עולם!'",
+            "למה המתכנת הלך לחנות חיות? כי הוא חיפש Python!",
+            "איך קוראים לאיש שלג שמתכנת? קוד-סיקל!",
+            "מה ההבדל בין בעיית תוכנה לבעיה של החיים? את בעיית התוכנה אפשר לפתור!",
+            "למה המתכנת לא יכול היה למצוא את הבעיה? כי היא הייתה Feature!",
+            "איך מתכנת משחק בלוטו? הוא בוחר מספרים אקראיים - RANDOM()!",
+            "מה אמר ה-HTML ל-JavaScript? 'תן לי קצת אינטראקטיביות!'",
+            "למה המתכנת תמיד נושא עט? למקרה שהוא צריך לעשות 'כתיבה לדיסק'!",
+            "איך קוראים לפיל שמתכנת? אלה-פנט.NET!",
+            "מה ההבדל בין מתכנת לוותיק לצעיר? הוותיק זוכר מה זה פלופי דיסק!",
+            "למה המחשב הלך לבית ספר? כי רצה לשפר את הביצועים האקדמיים שלו!",
+            "איך מתכנת עושה קפה? הוא רותח מים ואז מוסיף beans!",
+            "מה אמר המתכנת לבוס שלו? 'זה לא באג, זה פיצ'ר בלתי מתועד!'",
+            "למה המתכנת אוהב יום שישי? כי אחריו קיים release לסוף השבוע!",
+            "איך קוראים לרופא שמטפל במחשבים? טכנאי-לוג!",
+            "מה ההבדל בין שעון למתכנת? השעון עובד 24/7 בלי באגים!",
+            "למה המתכנת קנה ספה חדשה? כי הישנה הייתה deprecated!",
+            "איך מתכנת מזמין במסעדה? 'אני אקח את הארוחה המופע הכי טוב'",
+            "מה אמר ה-API ל-Frontend? 'תקרא לי מאוחר יותר!'",
+            "למה המתכנת לא יכול היה לישון? כי התינוק שלו זרק exception!",
+            "איך קוראים לקנגורו שמתכנת? Hop-script!",
+            "מה ההבדל בין שחמטאי למתכנת? השחמטאי יודע מה הצעד הבא!",
+            "למה המתכנת הלך לרופא עיניים? כי הוא ראה כפיל - duplicate code!",
+            "איך מתכנת מברך ברכת המזון? 'תודה על האוכל, אשמח לעדכון!'",
+            "מה אמר המחשב לנגן המוזיקה? 'אני מבין רק בינארי!'",
+            "למה המתכנת לא מצליח בדיאטה? כי הוא אוכל רק cookies!",
+            "איך קוראים לארנב שמתכנת? באני-סקריפט!",
+            "מה ההבדל בין מתכנת לחשמלאי? החשמלאי יודע איך לתקן קצר!",
+            "למה המתכנת קנה מכונת כביסה חדשה? כי הישנה הייתה מלאת באגים!",
+            "איך מתכנת עושה ספורט? הוא רץ פונקציות!",
+            "מה אמר ה-CSS כשפגש את Bootstrap? 'סוף סוף מישהו שמבין אותי!'",
+            "למה המתכנת לא יכול היה למצוא את המפתח? כי הוא חיפש Hash Key!",
+            "איך קוראים לדב שמתכנת? Panda-Script!",
+            "מה ההבדל בין תוכנית טלוויזיה לתוכנית מחשב? תוכנית הטלוויזיה עובדת!",
+            "למה המתכנת הלך לחנות פירות? כי שמע על Apple Developer!",
+            "איך מתכנת מסביר לבן הזוג שהוא מאוחר? 'הייתה לי exception בקוד!'",
+            "מה אמר המתכנת כשסיים פרויקט? 'זה עובד במחשב שלי!'",
+            "למה המתכנת לא אוהב מתמטיקה? כי יש יותר מדי floating point errors!",
+            "איך קוראים לכריש שמתכנת? שארק-אובר!",
+            "מה ההבדל בין מתכנת לקוסם? הקוסם מסביר את החכמים שלו!",
+            "למה המתכנת קנה אוזניות חדשות? כי הישנות היו מלאות static!",
+            "איך מתכנת עורך מסיבת יום הולדת? הוא עושה celebration.exe!",
+            "מה אמר ה-SQL למסד הנתונים? 'בחר אותי!'",
+            "למה המתכנת לא יכול היה לישון? כי היו לו infinite loops בחלומות!",
+            "איך קוראים לפינגווין שמתכנת? לינוקס!",
+            "מה ההבדל בין מתכנת לנהג? הנהג יודע איפה הוא הולך!",
+            "למה המתכנת קנה מקרר חדש? כי הישן היה מלא freeze!",
+            "איך מתכנת עושה בארבקיו? הוא מגריל עם פיירבייס!",
+            "מה אמר המתכנת לקפה שלו? 'אתה ה-Java הטוב ביותר!'",
+            "למה המתכנת לא מצליח בבישול? כי הוא תמיד שורף את הקוקיז!",
+            "איך קוראים לנמר שמתכנת? בנגל-סקריפט!",
+            "מה ההבדל בין חלל למתכנת? בחלל יש פחות חורים שחורים!",
+            "למה המתכנת הלך לתיאטרון? כי שמע שיש שם scripts!",
+            "איך מתכנת עושה קניות? עם אמזון web services!",
+            "מה אמר הראוטר למתג? 'אנחנו צריכים לחבר!'",
+            "למה המתכנת לא יכול היה לפתוח את הדלת? כי לא היה לו access!",
+            "איך קוראים לציפור שמתכנתת? טוויטר API!",
+            "מה ההבדל בין כלב למתכנת? הכלב בא כשקוראים לו!",
+            "למה המתכנת קנה מכונית חדשה? כי הישנה הייתה מלאת דליפות זיכרון!",
+            "איך מתכנת עושה יוגה? הוא מתרגל flexible layouts!",
+            "מה אמר ה-HTML לעולם? 'שלום עולם!'",
+            "למה המתכנת לא אוהב זמן? כי תמיד יש לו timeouts!",
+            "איך קוראים לחתול שמתכנת? מיאו-SQL!",
+            "מה ההבדל בין מתכנת למכונת כביסה? המכונה יודעת מתי הסיבוב הסתיים!",
+            "למה המתכנת הלך למוזיאון? כי רצה לראות legacy code!",
+            "איך מתכנת עושה חופשה? הוא עושה git commit ו-logout!",
+            "מה אמר המתכנת לחברה שלו? 'את ה-object הכי יפה שלי!'",
+            "למה המתכנת לא יכול היה לעוף? כי היו לו רק טיסות connection timeout!",
+            "איך קוראים לברווז שמתכנת? Java-Duck!",
+            "מה ההבדל בין מתכנת למורה? המורה יודע איך להעביר ידע!",
+            "למה המתכנת קנה טלוויזיה חדשה? כי הישנה הייתה מלאת pixel errors!",
+            "איך מתכנת עושה כושר? הוא מתרגל functional programming!",
+            "מה אמר המחשב לטלפון? 'איזה אפליקציה יפה יש לך!'",
+            "למה המתכנת לא אוהב את הגשם? כי זה גורם לקצרים!",
+            "איך קוראים לקוף שמתכנת? גו-רילה!",
+            "מה ההבדל בין מתכנת לטיפול? הטיפול עוזר!"
+        ];
+
+        // Smart quote functionality
+        document.getElementById('smartSquare').addEventListener('click', function() {
+            const randomQuote = smartQuotes[Math.floor(Math.random() * smartQuotes.length)];
+            showQuote(randomQuote, 'smart');
+        });
+
+        // Funny joke functionality
+        document.getElementById('funnySquare').addEventListener('click', function() {
+            const randomJoke = funnyJokes[Math.floor(Math.random() * funnyJokes.length)];
+            showQuote(randomJoke, 'funny');
+        });
+
+        function showQuote(text, type) {
+            const display = document.getElementById('quoteDisplay');
+            const textElement = document.getElementById('quoteText');
+            
+            textElement.textContent = text;
+            display.className = `quote-display ${type} show`;
+        }
+
+        function closeQuote() {
+            const display = document.getElementById('quoteDisplay');
+            display.classList.remove('show');
+        }
+
+        // Close quote on background click
+        document.getElementById('quoteDisplay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeQuote();
+            }
+        });
 
         // Rotating text click animation
         document.getElementById('rotatingText').addEventListener('click', function() {
