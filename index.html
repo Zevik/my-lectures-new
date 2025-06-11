@@ -457,103 +457,40 @@
 
         .quote-square {
             position: absolute;
+            width: 120px;
+            height: 120px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
             pointer-events: all;
             transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.3);
             font-weight: bold;
-            font-size: 12px;
+            font-size: 14px;
             text-align: center;
+            padding: 10px;
             box-sizing: border-box;
-        }
-
-        .comic-content {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
-
-        .comic-panel {
-            flex: 1;
-            border-bottom: 2px solid #333;
-            position: relative;
-            background: #f8f9fa;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .comic-panel:last-child {
-            border-bottom: none;
-        }
-
-        .comic-character {
-            font-size: 24px;
-            margin-bottom: 5px;
-        }
-
-        .speech-bubble {
-            background: white;
-            border: 2px solid #333;
-            border-radius: 15px;
-            padding: 8px;
-            position: relative;
-            font-size: 10px;
-            color: #333;
-            max-width: 80%;
-            text-align: center;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .speech-bubble:after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 8px solid transparent;
-            border-right: 8px solid transparent;
-            border-top: 8px solid #333;
-        }
-
-        .speech-bubble:before {
-            content: '';
-            position: absolute;
-            bottom: -6px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 6px solid transparent;
-            border-right: 6px solid transparent;
-            border-top: 6px solid white;
-            z-index: 1;
-        }
-
-        .comic-square {
-            width: 140px;
-            height: 140px;
-            border-radius: 15px;
-            background: white;
-            border: 3px solid #333;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-            position: relative;
-            overflow: hidden;
         }
 
         .smart-square {
             top: 50%;
-            right: -120px;
+            right: -110px;
             transform: translateY(-50%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
         }
 
         .funny-square {
             top: 50%;
-            left: -120px;
+            left: -110px;
             transform: translateY(-50%);
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
         }
 
         .quote-square:hover {
@@ -1136,24 +1073,20 @@
             }
 
             .smart-square {
-                right: -35px;
-                width: 100px;
-                height: 100px;
+                right: -25px;
+                width: 80px;
+                height: 80px;
             }
 
             .funny-square {
-                left: -35px;
-                width: 100px;
-                height: 100px;
+                left: -25px;
+                width: 80px;
+                height: 80px;
             }
 
-            .speech-bubble {
-                font-size: 8px;
-                padding: 4px;
-            }
-
-            .comic-character {
-                font-size: 18px;
+            .quote-square {
+                font-size: 10px;
+                padding: 5px;
             }
         }
 
@@ -1233,25 +1166,13 @@
             <div class="profile-image-container">
                 <img src="attached_assets/תמונה שלי אני_1749666176191.jpg" alt="זאב אבינר" class="profile-image">
                 <div class="interactive-squares">
-                    <div class="quote-square smart-square comic-square" id="smartSquare">
-                        <div class="comic-content">
-                            <div class="comic-panel">
-                                <div class="comic-character">🤔</div>
-                            </div>
-                            <div class="comic-panel">
-                                <div class="speech-bubble">חכמה!</div>
-                            </div>
-                        </div>
+                    <div class="quote-square smart-square" id="smartSquare">
+                        <div>💡</div>
+                        <div>תגיד משהו חכם</div>
                     </div>
-                    <div class="quote-square funny-square comic-square" id="funnySquare">
-                        <div class="comic-content">
-                            <div class="comic-panel">
-                                <div class="comic-character">😂</div>
-                            </div>
-                            <div class="comic-panel">
-                                <div class="speech-bubble">בדיחה!</div>
-                            </div>
-                        </div>
+                    <div class="quote-square funny-square" id="funnySquare">
+                        <div>😄</div>
+                        <div>תצחיק אותי</div>
                     </div>
                 </div>
             </div>
