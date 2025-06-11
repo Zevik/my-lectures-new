@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
@@ -237,6 +236,39 @@
             background: var(--light-gray);
             position: relative;
             z-index: 2;
+        }
+
+        /* Profile Image */
+        .profile-image-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            animation: pulse 5s infinite, fadeIn 1s ease-out;
+        }
+
+        .profile-image {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary-color);
+            box-shadow: 0 15px 30px rgba(14, 165, 233, 0.3);
+            transition: all 0.4s ease;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.7);
+            }
+            70% {
+                transform: scale(1.1);
+                box-shadow: 0 0 0 10px rgba(14, 165, 233, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(14, 165, 233, 0);
+            }
         }
 
         .intro {
@@ -515,79 +547,6 @@
             margin: 0 auto;
         }
 
-        .profile-section {
-            display: flex;
-            align-items: center;
-            gap: 3rem;
-            text-align: right;
-        }
-
-        .profile-image-container {
-            flex-shrink: 0;
-            position: relative;
-        }
-
-        .profile-image {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid var(--primary-color);
-            box-shadow: 0 15px 30px rgba(14, 165, 233, 0.3);
-            transition: all 0.4s ease;
-            animation: fadeInLeft 1.2s ease-out;
-        }
-
-        .profile-image:hover {
-            transform: scale(1.05);
-            box-shadow: 0 20px 40px rgba(14, 165, 233, 0.4);
-        }
-
-        .profile-image-container::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--accent-color));
-            z-index: -1;
-            opacity: 0.3;
-            animation: rotate 10s linear infinite;
-        }
-
-        @keyframes fadeInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .profile-text {
-            flex: 1;
-            animation: fadeInRight 1.2s ease-out;
-        }
-
-        @keyframes fadeInRight {
-            from {
-                opacity: 0;
-                transform: translateX(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
 
         .about-content h2 {
             color: var(--text-primary);
@@ -842,6 +801,10 @@
 
     <main>
         <div class="container">
+            <div class="profile-image-container">
+                <img src="attached_assets/תמונה שלי אני_1749666176191.jpg" alt="זאב אבינר" class="profile-image">
+            </div>
+
             <section class="intro fade-in-on-scroll" id="about">
                 <h2>ברוכים הבאים</h2>
                 <p>
@@ -946,26 +909,19 @@
 
             <section class="about-section fade-in-on-scroll">
                 <div class="about-content">
-                    <div class="profile-section">
-                        <div class="profile-image-container">
-                            <img src="attached_assets/תמונה שלי אני_1749666176191.jpg" alt="זאב אבינר" class="profile-image">
-                        </div>
-                        <div class="profile-text">
-                            <h2><i class="fas fa-heart"></i> הערה חשובה</h2>
-                            <div class="highlight">
-                                <p>
-                                    <strong>כל ההרצאות והסדנאות מועברות מתוך רצון אמיתי לתרום מהידע והניסיון שלי.</strong>
-                                </p>
-                                <p>
-                                    המטרה היא להעצים ולסייע למשתתפים להצליח בעסקיהם ובחייהם המקצועיים.
-                                </p>
-                            </div>
-                            <p>
-                                אני מאמין שהתכנים הללו יכולים להיות בעלי ערך רב לקהל היעד, 
-                                ואשמח לדון באפשרויות שילוב של הרצאות אלו בתוכנית שלכם.
-                            </p>
-                        </div>
+                    <h2><i class="fas fa-heart"></i> הערה חשובה</h2>
+                    <div class="highlight">
+                        <p>
+                            <strong>כל ההרצאות והסדנאות מועברות מתוך רצון אמיתי לתרום מהידע והניסיון שלי.</strong>
+                        </p>
+                        <p>
+                            המטרה היא להעצים ולסייע למשתתפים להצליח בעסקיהם ובחייהם המקצועיים.
+                        </p>
                     </div>
+                    <p>
+                        אני מאמין שהתכנים הללו יכולים להיות בעלי ערך רב לקהל היעד, 
+                        ואשמח לדון באפשרויות שילוב של הרצאות אלו בתוכנית שלכם.
+                    </p>
                 </div>
             </section>
         </div>
