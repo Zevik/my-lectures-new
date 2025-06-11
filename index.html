@@ -238,12 +238,13 @@
             z-index: 2;
         }
 
-        /* Profile Image */
+        /* Profile Image with Rotating Text */
         .profile-image-container {
             display: flex;
             justify-content: center;
             margin-bottom: 2rem;
             animation: pulse 5s infinite, fadeIn 1s ease-out;
+            position: relative;
         }
 
         .profile-image {
@@ -254,81 +255,54 @@
             border: 4px solid var(--primary-color);
             box-shadow: 0 15px 30px rgba(14, 165, 233, 0.3);
             transition: all 0.4s ease;
+            position: relative;
+            z-index: 5;
         }
 
-        /* Like Animation */
-        .like-animation-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 2rem;
-            position: relative;
-            height: 100px;
-        }
-
-        .like-button {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
-            position: relative;
-            overflow: hidden;
-            border: none;
-            font-family: inherit;
-            font-size: 1rem;
+        /* Rotating Text Animation */
+        .rotating-text-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 240px;
+            height: 240px;
+            pointer-events: none;
             z-index: 10;
         }
 
-        .like-button::before {
-            content: '';
+        .rotating-text {
             position: absolute;
-            top: 0;
-            left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.6s;
-        }
-
-        .like-button:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4);
-        }
-
-        .like-button:hover::before {
-            left: 100%;
-        }
-
-        .like-button:active {
-            transform: translateY(-1px) scale(0.98);
-        }
-
-        .like-icon {
-            font-size: 1.2rem;
+            border-radius: 50%;
+            color: #ff4444;
+            font-weight: bold;
+            font-size: 16px;
+            animation: rotateText 8s linear infinite;
+            cursor: pointer;
+            pointer-events: all;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: all 0.3s ease;
         }
 
-        .like-button.clicked .like-icon {
-            animation: heartBeat 0.6s ease-in-out;
-            color: #ffeb3b;
+        .rotating-text:hover {
+            color: #ff0000;
+            font-size: 18px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+            transform: scale(1.1);
         }
 
-        @keyframes heartBeat {
-            0% { transform: scale(1); }
-            25% { transform: scale(1.3); }
-            50% { transform: scale(1.1); }
-            75% { transform: scale(1.4); }
-            100% { transform: scale(1); }
-        }
-
-        .like-text {
-            font-weight: 600;
-            letter-spacing: 0.5px;
+        @keyframes rotateText {
+            0% {
+                transform: rotate(0deg) translateX(120px) rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg) translateX(120px) rotate(-360deg);
+            }
         }
 
         .particles-container {
@@ -393,6 +367,41 @@
             100% {
                 opacity: 0;
                 transform: translateY(-150px) translateX(var(--random-x)) scale(0.2) rotate(360deg);
+            }
+        }
+
+        /* Enhanced particle animation */
+        .enhanced-particle {
+            position: absolute;
+            pointer-events: none;
+            animation: enhancedFloat 3s ease-out forwards;
+            z-index: 20;
+        }
+
+        @keyframes enhancedFloat {
+            0% {
+                opacity: 1;
+                transform: translateY(0) translateX(0) scale(0.5) rotate(0deg);
+            }
+            20% {
+                opacity: 1;
+                transform: translateY(-20px) translateX(calc(var(--random-x) * 0.3)) scale(1.2) rotate(72deg);
+            }
+            40% {
+                opacity: 0.9;
+                transform: translateY(-50px) translateX(calc(var(--random-x) * 0.6)) scale(1) rotate(144deg);
+            }
+            60% {
+                opacity: 0.7;
+                transform: translateY(-80px) translateX(calc(var(--random-x) * 0.8)) scale(1.1) rotate(216deg);
+            }
+            80% {
+                opacity: 0.4;
+                transform: translateY(-120px) translateX(var(--random-x)) scale(0.8) rotate(288deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-160px) translateX(var(--random-x)) scale(0.3) rotate(360deg);
             }
         }
 
@@ -943,14 +952,10 @@
         <div class="container">
             <div class="profile-image-container">
                 <img src="attached_assets/תמונה שלי אני_1749666176191.jpg" alt="זאב אבינר" class="profile-image">
-            </div>
-
-            <div class="like-animation-container">
-                <div class="like-button" id="likeButton">
-                    <i class="fas fa-heart like-icon"></i>
-                    <span class="like-text">לחצו עלי ללייק</span>
+                <div class="rotating-text-container">
+                    <div class="rotating-text" id="rotatingText">לחצו עלי ללייק ❤️</div>
+                    <div class="particles-container" id="particlesContainer"></div>
                 </div>
-                <div class="particles-container" id="particlesContainer"></div>
             </div>
 
             <section class="intro fade-in-on-scroll" id="about">
@@ -1242,54 +1247,54 @@
             typeWriter(subtitle, originalText, 80);
         }, 1000);
 
-        // Like button animation
-        document.getElementById('likeButton').addEventListener('click', function() {
-            const button = this;
+        // Rotating text click animation
+        document.getElementById('rotatingText').addEventListener('click', function() {
+            const text = this;
             const container = document.getElementById('particlesContainer');
             
-            // Add clicked class for heart animation
-            button.classList.add('clicked');
-            setTimeout(() => button.classList.remove('clicked'), 600);
+            // Create enhanced particles
+            createEnhancedParticles(container);
             
-            // Create particles
-            createLoveParticles(container);
-            
-            // Add button pulse effect
-            button.style.transform = 'scale(0.9)';
+            // Add text pulse effect
+            text.style.transform = 'scale(1.3)';
+            text.style.color = '#ff0000';
             setTimeout(() => {
-                button.style.transform = '';
-            }, 150);
+                text.style.transform = '';
+                text.style.color = '#ff4444';
+            }, 300);
         });
 
-        function createLoveParticles(container) {
-            const hearts = ['💖', '💕', '❤️', '💝', '💗'];
-            const flowers = ['🌸', '🌺', '🌻', '🌷', '🌹', '🌼'];
-            const particles = [...hearts, ...flowers];
+        function createEnhancedParticles(container) {
+            const hearts = ['💖', '💕', '❤️', '💝', '💗', '💘', '💓'];
+            const flowers = ['🌸', '🌺', '🌻', '🌷', '🌹', '🌼', '🌵', '🌿'];
+            const animals = ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐨', '🐯', '🦁', '🐮', '🐷', '🐸'];
+            const funny = ['😂', '😍', '🤩', '😘', '🥳', '🤗', '😋', '🤪', '😎', '🥰', '😇', '🤯', '🎉', '🎊', '⭐', '✨', '🌟'];
+            const particles = [...hearts, ...flowers, ...animals, ...funny];
             
-            // Create 12 particles
-            for (let i = 0; i < 12; i++) {
+            // Create 20 particles for more effect
+            for (let i = 0; i < 20; i++) {
                 setTimeout(() => {
                     const particle = document.createElement('div');
-                    const isFlower = Math.random() > 0.4;
                     const emoji = particles[Math.floor(Math.random() * particles.length)];
                     
                     particle.textContent = emoji;
-                    particle.className = isFlower ? 'flower-particle' : 'love-particle';
+                    particle.className = 'enhanced-particle';
                     
-                    // Random starting position around the button
-                    const angle = (i / 12) * 2 * Math.PI;
-                    const radius = 40;
+                    // Random starting position around the image
+                    const angle = (Math.random() * 360) * (Math.PI / 180);
+                    const radius = 60 + Math.random() * 40;
                     const startX = Math.cos(angle) * radius;
                     const startY = Math.sin(angle) * radius;
                     
                     particle.style.left = `calc(50% + ${startX}px)`;
                     particle.style.top = `calc(50% + ${startY}px)`;
+                    particle.style.fontSize = (0.8 + Math.random() * 1) + 'rem';
                     
-                    // Add random direction for flowers
-                    if (isFlower) {
-                        const randomX = (Math.random() - 0.5) * 100;
-                        particle.style.setProperty('--random-x', randomX + 'px');
-                    }
+                    // Random direction and distance
+                    const randomX = (Math.random() - 0.5) * 200;
+                    const randomY = -100 - (Math.random() * 100);
+                    particle.style.setProperty('--random-x', randomX + 'px');
+                    particle.style.setProperty('--random-y', randomY + 'px');
                     
                     container.appendChild(particle);
                     
@@ -1298,8 +1303,8 @@
                         if (particle.parentNode) {
                             particle.parentNode.removeChild(particle);
                         }
-                    }, 3000);
-                }, i * 80); // Stagger the particle creation
+                    }, 3500);
+                }, i * 50); // Faster stagger for more dynamic effect
             }
         }
     </script>
