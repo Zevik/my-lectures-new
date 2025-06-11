@@ -259,27 +259,27 @@
             z-index: 5;
         }
 
-        /* Rotating Text Animation */
+        /* Rotating Text Animation - Expanded to cover entire intro section */
         .rotating-text-container {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 240px;
-            height: 240px;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             pointer-events: none;
             z-index: 10;
+            width: 100%;
+            height: 100%;
         }
 
         .rotating-text {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
+            width: 200px;
+            height: 200px;
             color: #ff4444;
             font-weight: bold;
             font-size: 16px;
-            animation: rotateText 8s linear infinite;
+            animation: rotateTextExpanded 12s linear infinite;
             cursor: pointer;
             pointer-events: all;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
@@ -287,6 +287,7 @@
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
+            border-radius: 50%;
         }
 
         .rotating-text:hover {
@@ -296,33 +297,76 @@
             transform: scale(1.1);
         }
 
-        @keyframes rotateText {
+        @keyframes rotateTextExpanded {
             0% {
-                transform: rotate(0deg) translateX(120px) rotate(0deg) scaleX(1) scaleY(1);
+                left: 10%;
+                top: 20%;
+                transform: scaleX(1) scaleY(1) rotate(0deg);
             }
-            12.5% {
-                transform: rotate(45deg) translateX(115px) rotate(-45deg) scaleX(1.1) scaleY(0.9);
+            8% {
+                left: 30%;
+                top: 10%;
+                transform: scaleX(1.1) scaleY(0.9) rotate(45deg);
             }
-            25% {
-                transform: rotate(90deg) translateX(110px) rotate(-90deg) scaleX(1.2) scaleY(0.8);
+            16% {
+                left: 50%;
+                top: 15%;
+                transform: scaleX(1.2) scaleY(0.8) rotate(90deg);
             }
-            37.5% {
-                transform: rotate(135deg) translateX(115px) rotate(-135deg) scaleX(1.1) scaleY(0.9);
+            24% {
+                left: 70%;
+                top: 25%;
+                transform: scaleX(1.1) scaleY(0.9) rotate(135deg);
             }
-            50% {
-                transform: rotate(180deg) translateX(120px) rotate(-180deg) scaleX(1) scaleY(1);
+            32% {
+                left: 80%;
+                top: 45%;
+                transform: scaleX(1) scaleY(1) rotate(180deg);
             }
-            62.5% {
-                transform: rotate(225deg) translateX(115px) rotate(-225deg) scaleX(0.9) scaleY(1.1);
+            40% {
+                left: 75%;
+                top: 65%;
+                transform: scaleX(0.9) scaleY(1.1) rotate(225deg);
             }
-            75% {
-                transform: rotate(270deg) translateX(110px) rotate(-270deg) scaleX(0.8) scaleY(1.2);
+            48% {
+                left: 60%;
+                top: 80%;
+                transform: scaleX(0.8) scaleY(1.2) rotate(270deg);
             }
-            87.5% {
-                transform: rotate(315deg) translateX(115px) rotate(-315deg) scaleX(0.9) scaleY(1.1);
+            56% {
+                left: 40%;
+                top: 75%;
+                transform: scaleX(0.9) scaleY(1.1) rotate(315deg);
+            }
+            64% {
+                left: 20%;
+                top: 70%;
+                transform: scaleX(1) scaleY(1) rotate(360deg);
+            }
+            72% {
+                left: 15%;
+                top: 50%;
+                transform: scaleX(1.1) scaleY(0.9) rotate(405deg);
+            }
+            80% {
+                left: 25%;
+                top: 35%;
+                transform: scaleX(1.2) scaleY(0.8) rotate(450deg);
+            }
+            88% {
+                left: 45%;
+                top: 30%;
+                transform: scaleX(1.1) scaleY(0.9) rotate(495deg);
+            }
+            96% {
+                left: 60%;
+                top: 40%;
+                transform: scaleX(1) scaleY(1) rotate(540deg);
             }
             100% {
-                transform: rotate(360deg) translateX(120px) rotate(-360deg) scaleX(1) scaleY(1);
+                left: 10%;
+                top: 20%;
+                transform: scaleX(1) scaleY(1) rotate(540deg);
             }
         }
 
@@ -964,15 +1008,32 @@
             opacity: 0.95;
         }
 
+        /* Fix horizontal overflow */
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 0 15px;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
+            /* Hide navigation on mobile */
+            nav {
+                display: none;
             }
 
-            .nav-container {
-                flex-direction: column;
-                gap: 0.5rem;
+            h1 {
+                font-size: 2.5rem;
             }
 
             .lectures-grid {
@@ -986,22 +1047,43 @@
             }
 
             .intro {
-                padding: 2rem;
+                padding: 2rem 1rem;
             }
 
             .lecture-card {
-                padding: 2rem;
-            }
-
-            .profile-section {
-                flex-direction: column;
-                text-align: center;
-                gap: 2rem;
+                padding: 2rem 1.5rem;
             }
 
             .profile-image {
                 width: 150px;
                 height: 150px;
+            }
+
+            /* Adjust rotating text container for mobile */
+            .rotating-text-container {
+                width: 300px;
+                height: 300px;
+            }
+
+            /* Adjust interactive squares for mobile */
+            .interactive-squares {
+                width: 100%;
+                height: 400px;
+            }
+
+            .smart-square {
+                right: -100px;
+            }
+
+            .funny-square {
+                left: -100px;
+            }
+
+            .quote-square {
+                width: 100px;
+                height: 100px;
+                font-size: 12px;
+                padding: 8px;
             }
         }
 
@@ -1084,10 +1166,6 @@
         <div class="container">
             <div class="profile-image-container">
                 <img src="attached_assets/תמונה שלי אני_1749666176191.jpg" alt="זאב אבינר" class="profile-image">
-                <div class="rotating-text-container">
-                    <div class="rotating-text" id="rotatingText">לחצו עלי ללייק ❤️</div>
-                    <div class="particles-container" id="particlesContainer"></div>
-                </div>
                 <div class="interactive-squares">
                     <div class="quote-square smart-square" id="smartSquare">
                         <div>💡</div>
@@ -1106,6 +1184,10 @@
             </div>
 
             <section class="intro fade-in-on-scroll" id="about">
+                <div class="rotating-text-container">
+                    <div class="rotating-text" id="rotatingText">לחצו עלי ללייק</div>
+                    <div class="particles-container" id="particlesContainer"></div>
+                </div>
                 <h2>ברוכים הבאים</h2>
                 <p>
                     אני מציע שלוש הרצאות וסדנאות מרכזיות, המבוססות על ניסיון אישי רב שנים וידע מעמיק בתחומים שונים. 
