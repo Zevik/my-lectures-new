@@ -479,9 +479,34 @@
         }
 
         .smart-square {
+            animation: pulse-smart 5s infinite ease-in-out;
+        }
+
+        .funny-square {
+            animation: pulse-funny 5s infinite ease-in-out 2.5s;
+        }
+
+        @keyframes pulse-smart {
+            0%, 50%, 100% {
+                transform: translateY(-50%) scale(1);
+            }
+            20% {
+                transform: translateY(-50%) scale(2);
+            }
+        }
+
+        @keyframes pulse-funny {
+            0%, 50%, 100% {
+                transform: translateY(-50%) scale(1);
+            }
+            20% {
+                transform: translateY(-50%) scale(2);
+            }
+        }
+
+        .smart-square {
             top: 50%;
             right: -110px;
-            transform: translateY(-50%);
             background: transparent;
             color: white;
         }
@@ -489,18 +514,16 @@
         .funny-square {
             top: 50%;
             left: -110px;
-            transform: translateY(-50%);
             background: transparent;
             color: white;
         }
 
         .quote-square:hover {
-            transform: translateY(-50%) scale(1.05);
             box-shadow: none;
         }
 
         .quote-display {
-            position: fixed;
+            position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -605,7 +628,7 @@
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(14, 165, 233, 0.1);
             position: relative;
-            overflow: hidden;
+            overflow: visible;
             border: 1px solid rgba(14, 165, 233, 0.1);
         }
 
@@ -1318,11 +1341,10 @@
                 </div>
             </div>
 
-            <div class="quote-display" id="quoteDisplay">
-                <div class="quote-text" id="quoteText"></div>
-            </div>
-
             <section class="intro fade-in-on-scroll" id="about">
+                <div class="quote-display" id="quoteDisplay">
+                    <div class="quote-text" id="quoteText"></div>
+                </div>
                 <div class="rotating-text-container">
                     <img src="attached_assets/da3c7587-b420-4c83-846d-2c332c938cf1_1749674129110.png" alt="תצחיק אותי" class="rotating-text" id="rotatingText" style="width: 120px; height: 120px; object-fit: contain;">
                     <div class="particles-container" id="particlesContainer"></div>
@@ -1555,7 +1577,7 @@
 
             navLinks.forEach(link => {
                 link.classList.remove('active');
-                if (link.getAttribute('href') === `#${current}`) {
+                if (current && link.getAttribute('href') === `#${current}`) {
                     link.classList.add('active');
                 }
             });
