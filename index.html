@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>זאב אבינר - הרצאות וסדנאות מקצועיות</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -1029,65 +1029,207 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
+            /* Force mobile layout */
+            html {
+                width: 100vw !important;
+                overflow-x: hidden !important;
+            }
+            
+            body {
+                width: 100vw !important;
+                overflow-x: hidden !important;
+                font-size: 16px !important;
+                -webkit-text-size-adjust: 100% !important;
+                -ms-text-size-adjust: 100% !important;
+            }
+
             /* Hide navigation on mobile */
             nav {
                 display: none;
             }
 
-            h1 {
-                font-size: 2.5rem;
+            .container {
+                padding: 0 10px !important;
+                max-width: 100% !important;
+                width: 100% !important;
             }
 
-            .lectures-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
+            header {
+                padding: 1.5rem 0;
+            }
+
+            h1 {
+                font-size: 2rem !important;
+                line-height: 1.2;
+            }
+
+            .subtitle {
+                font-size: 1rem !important;
+                padding: 0 10px;
+                line-height: 1.4;
+            }
+
+            .contact-info {
+                padding: 0 10px;
             }
 
             .contact-info span {
                 display: block;
                 margin: 0.5rem 0;
+                font-size: 0.9rem;
+            }
+
+            main {
+                padding: 2rem 0;
             }
 
             .intro {
-                padding: 2rem 1rem;
+                padding: 1.5rem 0.5rem !important;
+                margin-bottom: 3rem;
+            }
+
+            .intro h2 {
+                font-size: 1.8rem !important;
+            }
+
+            .intro p {
+                font-size: 1rem !important;
+                line-height: 1.6;
+            }
+
+            .lectures-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1.5rem;
+                padding: 0 5px;
             }
 
             .lecture-card {
-                padding: 2rem 1.5rem;
+                padding: 1.5rem 1rem !important;
+                margin: 0 5px;
+            }
+
+            .lecture-card h3 {
+                font-size: 1.3rem !important;
+            }
+
+            .lecture-description {
+                font-size: 0.95rem !important;
+            }
+
+            .content-list li {
+                font-size: 0.9rem;
+                padding: 0.4rem 0;
             }
 
             .profile-image {
-                width: 120px;
-                height: 120px;
+                width: 100px !important;
+                height: 100px !important;
+            }
+
+            .profile-image-container {
+                margin-bottom: 1rem;
             }
 
             /* Adjust rotating text container for mobile */
             .rotating-text-container {
-                width: 250px;
-                height: 250px;
+                width: 200px !important;
+                height: 200px !important;
+            }
+
+            .rotating-text {
+                width: 80px !important;
+                height: 80px !important;
             }
 
             /* Adjust interactive squares for mobile */
             .interactive-squares {
-                width: 300px;
-                height: 280px;
+                width: 250px !important;
+                height: 200px !important;
             }
 
             .smart-square {
-                right: -25px;
-                width: 80px;
-                height: 80px;
+                right: -20px !important;
+                width: 60px !important;
+                height: 60px !important;
             }
 
             .funny-square {
-                left: -25px;
-                width: 80px;
-                height: 80px;
+                left: -20px !important;
+                width: 60px !important;
+                height: 60px !important;
             }
 
             .quote-square {
-                font-size: 10px;
-                padding: 5px;
+                font-size: 8px !important;
+                padding: 2px !important;
+            }
+
+            .about-section {
+                margin-top: 2rem;
+                padding: 2rem 0;
+            }
+
+            .about-content h2 {
+                font-size: 1.6rem !important;
+            }
+
+            .about-content p {
+                font-size: 0.95rem !important;
+                padding: 0 10px;
+            }
+
+            .highlight {
+                margin: 1.5rem 5px !important;
+                padding: 1.5rem 1rem !important;
+            }
+
+            .contact-section {
+                margin-top: 2rem;
+                padding: 2rem 0;
+            }
+
+            .contact-section h2 {
+                font-size: 1.8rem !important;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1.5rem;
+                margin-top: 2rem;
+                padding: 0 5px;
+            }
+
+            .contact-item {
+                padding: 1.5rem 1rem !important;
+            }
+
+            .quote-display {
+                max-width: 90% !important;
+                margin: 0 5% !important;
+                padding: 1.5rem 1rem !important;
+            }
+
+            .quote-text {
+                font-size: 1rem !important;
+            }
+        }
+
+        /* Additional mobile fixes */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem !important;
+            }
+            
+            .subtitle {
+                font-size: 0.9rem !important;
+            }
+            
+            .lecture-card {
+                padding: 1rem 0.8rem !important;
+            }
+            
+            .intro h2 {
+                font-size: 1.6rem !important;
             }
         }
 
