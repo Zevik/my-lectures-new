@@ -83,6 +83,7 @@ const LecturesSection: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.2 }}
               viewport={{ once: true }}
+              className="h-full"
             >
               <LectureCard lecture={lecture} />
             </motion.div>

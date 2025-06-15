@@ -23,12 +23,12 @@ const LectureCard: React.FC<LectureCardProps> = ({ lecture }) => {
 
   return (
     <motion.div
-      className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-gray-100"
+      className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-gray-100 h-full flex flex-col"
       whileHover={{ y: -8, scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
     >
       {/* Header with gradient */}
-      <div className={`bg-gradient-to-r ${lecture.gradient} p-6 text-white relative overflow-hidden`}>
+      <div className={`bg-gradient-to-r ${lecture.gradient} p-6 text-white relative overflow-hidden flex-shrink-0`}>
         <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16" />
         <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-12 -translate-x-12" />
         
@@ -41,15 +41,15 @@ const LectureCard: React.FC<LectureCardProps> = ({ lecture }) => {
             <Icon size={32} />
           </motion.div>
           
-          <h3 className="text-xl font-bold leading-tight">
+          <h3 className="text-xl font-bold leading-tight min-h-[3.5rem] flex items-center">
             {lecture.title}
           </h3>
         </div>
       </div>
 
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-6 flex-grow flex flex-col">
         {/* Description */}
-        <p className="text-gray-600 italic leading-relaxed">
+        <p className="text-gray-600 italic leading-relaxed min-h-[3rem] flex items-start">
           {lecture.description}
         </p>
 
@@ -59,7 +59,7 @@ const LectureCard: React.FC<LectureCardProps> = ({ lecture }) => {
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.2 }}
           viewport={{ once: true }}
-          className="bg-gray-50 rounded-lg p-4"
+          className="bg-gray-50 rounded-lg p-4 flex-shrink-0"
         >
           <div className="flex items-center gap-2 mb-2">
             <Users size={18} className="text-blue-600" />
@@ -71,7 +71,7 @@ const LectureCard: React.FC<LectureCardProps> = ({ lecture }) => {
         </motion.div>
 
         {/* Content List */}
-        <div>
+        <div className="flex-grow">
           <div className="flex items-center gap-2 mb-3">
             <List size={18} className="text-purple-600" />
             <h4 className="font-semibold text-gray-800">תכנים מרכזיים</h4>
@@ -95,13 +95,13 @@ const LectureCard: React.FC<LectureCardProps> = ({ lecture }) => {
           </ul>
         </div>
 
-        {/* Value Added */}
+        {/* Value Added - Fixed at bottom */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
           viewport={{ once: true }}
-          className={`bg-gradient-to-r ${lecture.gradient} text-white rounded-lg p-4`}
+          className={`bg-gradient-to-r ${lecture.gradient} text-white rounded-lg p-4 mt-auto flex-shrink-0`}
         >
           <div className="flex items-center gap-2 mb-2">
             <Star size={18} />
