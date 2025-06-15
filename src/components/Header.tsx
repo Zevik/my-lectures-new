@@ -42,12 +42,21 @@ const Header: React.FC = () => {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-            className="inline-flex items-center justify-center w-20 h-20 rounded-full mb-6 shadow-2xl overflow-hidden"
+            className="inline-flex items-center justify-center w-20 h-20 rounded-full mb-6 shadow-2xl overflow-hidden border-4 border-white/20"
           >
             <img 
               src="/profile-image.jpg" 
               alt="זאב אבינר" 
               className="w-full h-full object-cover"
+              onError={(e) => {
+                // Fallback if image doesn't load
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+                const parent = target.parentElement;
+                if (parent) {
+                  parent.innerHTML = '<div class="w-full h-full bg-gradient-to-br from-orange-400 to-yellow-500 flex items-center justify-center text-white text-2xl font-bold">ז</div>';
+                }
+              }}
             />
           </motion.div>
 
