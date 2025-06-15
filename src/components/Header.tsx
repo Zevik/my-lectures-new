@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
+import AnimatedText from './AnimatedText';
 
 const Header: React.FC = () => {
   return (
@@ -56,14 +57,9 @@ const Header: React.FC = () => {
             זאב אבינר
           </motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
-            className="text-xl md:text-2xl mb-8 opacity-90"
-          >
-            הרצאות וסדנאות מקצועיות
-          </motion.p>
+          <div className="text-xl md:text-2xl mb-8 opacity-90 min-h-[3rem] flex items-center justify-center">
+            <AnimatedText />
+          </div>
         </motion.div>
       </div>
 
