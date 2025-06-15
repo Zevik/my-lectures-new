@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowDown, Star } from 'lucide-react';
+import FloatingProfile from './FloatingProfile';
 
 const Hero: React.FC = () => {
   const scrollToLectures = () => {
@@ -17,6 +18,9 @@ const Hero: React.FC = () => {
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-3xl" />
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-3xl" />
       </div>
+
+      {/* Floating Profile Component */}
+      <FloatingProfile />
 
       <div className="container mx-auto px-6 relative z-10">
         <motion.div
