@@ -6,27 +6,42 @@ const AnimatedText: React.FC = () => {
   const [displayedText, setDisplayedText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
 
   useEffect(() => {
-    if (currentIndex < fullText.length) {
+    // התחל את האנימציה אחרי דיליי קצר
+    const startTimer = setTimeout(() => {
+      setHasStarted(true);
+    }, 1000);
+
+    return () => clearTimeout(startTimer);
+  }, []);
+
+  useEffect(() => {
+    if (hasStarted && currentIndex < fullText.length) {
       const timer = setTimeout(() => {
         setDisplayedText(prev => prev + fullText[currentIndex]);
         setCurrentIndex(prev => prev + 1);
       }, 50); // מהירות הקלדה - 50ms בין כל תו
 
       return () => clearTimeout(timer);
-    } else {
+    } else if (hasStarted && currentIndex >= fullText.length) {
       setIsComplete(true);
     }
-  }, [currentIndex, fullText]);
+  }, [currentIndex, fullText, hasStarted]);
+
+  // אם האנימציה עדיין לא התחילה, החזר div ריק
+  if (!hasStarted) {
+    return <div className="min-h-[4rem] flex items-center justify-center" />;
+  }
 
   return (
-    <div className="relative">
+    <div className="relative min-h-[4rem] flex items-center justify-center">
       <motion.span
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1 }}
-        className="inline-block"
+        transition={{ duration: 0.3 }}
+        className="inline-block text-center"
       >
         {displayedText}
         
