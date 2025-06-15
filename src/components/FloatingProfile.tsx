@@ -65,9 +65,10 @@ const FloatingProfile: React.FC = () => {
   useEffect(() => {
     const moveSnake = () => {
       setPosition(prevPos => {
-        const speed = 2; // מהירות התנועה
-        const maxX = window.innerWidth - 120;
-        const maxY = window.innerHeight - 120;
+        const speed = 1.5; // מהירות התנועה
+        const imageSize = 80; // גודל התמונה
+        const maxX = window.innerWidth - imageSize;
+        const maxY = window.innerHeight - imageSize;
         
         let newX = prevPos.x + (direction.x * speed);
         let newY = prevPos.y + (direction.y * speed);
@@ -94,7 +95,7 @@ const FloatingProfile: React.FC = () => {
       });
     };
 
-    const interval = setInterval(moveSnake, 50); // עדכון כל 50ms לתנועה חלקה
+    const interval = setInterval(moveSnake, 30); // עדכון כל 30ms לתנועה חלקה יותר
     return () => clearInterval(interval);
   }, [direction]);
 
@@ -117,21 +118,21 @@ const FloatingProfile: React.FC = () => {
 
   return (
     <>
-      {/* Floating Profile Image */}
+      {/* Floating Click-Me Image */}
       <motion.div
-        className="fixed z-30 cursor-pointer"
+        className="fixed cursor-pointer z-50"
+        style={{
+          left: position.x,
+          top: position.y,
+        }}
         initial={{ scale: 0, opacity: 0 }}
         animate={{ 
           scale: 1, 
-          opacity: 1,
-          x: position.x,
-          y: position.y
+          opacity: 1
         }}
         transition={{ 
-          scale: { duration: 0.5, delay: 2 },
-          opacity: { duration: 0.5, delay: 2 },
-          x: { duration: 0 }, // תנועה מיידית
-          y: { duration: 0 }  // תנועה מיידית
+          scale: { duration: 0.5, delay: 3 },
+          opacity: { duration: 0.5, delay: 3 }
         }}
         whileHover={{ 
           scale: 1.2,
@@ -143,47 +144,31 @@ const FloatingProfile: React.FC = () => {
       >
         <div className="relative">
           {/* Glow effect */}
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full blur-lg opacity-60 animate-pulse" />
+          <div className="absolute inset-0 bg-gradient-to-r from-pink-400 to-orange-400 rounded-full blur-lg opacity-60 animate-pulse" />
           
-          {/* Profile image container */}
-          <div className="relative w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-2xl bg-gradient-to-br from-blue-500 to-purple-500">
+          {/* Click-me image container */}
+          <div className="relative w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-2xl bg-gradient-to-br from-pink-500 to-orange-500">
             <img 
-              src="/my-image.jpg" 
-              alt="זאב אבינר" 
+              src="/click-on-me.png" 
+              alt="לחץ עלי" 
               className="w-full h-full object-cover"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.style.display = 'none';
                 const parent = target.parentElement;
                 if (parent) {
-                  parent.innerHTML = '<div class="w-full h-full bg-gradient-to-br from-orange-400 to-yellow-500 flex items-center justify-center text-white text-3xl font-bold">ז</div>';
+                  parent.innerHTML = '<div class="w-full h-full bg-gradient-to-br from-pink-400 to-orange-500 flex items-center justify-center text-white text-2xl font-bold">👆</div>';
                 }
               }}
             />
           </div>
 
-          {/* Click indicator */}
+          {/* Pulsing ring */}
           <motion.div
-            className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg"
-            animate={{ 
-              scale: [1, 1.3, 1],
-              rotate: [0, 180, 360]
-            }}
-            transition={{ 
-              duration: 2, 
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          >
-            <Quote size={16} className="text-white" />
-          </motion.div>
-
-          {/* Trail effect */}
-          <motion.div
-            className="absolute inset-0 rounded-full border-2 border-blue-400/30"
+            className="absolute inset-0 rounded-full border-2 border-pink-400/50"
             animate={{
               scale: [1, 1.5, 1],
-              opacity: [0.5, 0, 0.5]
+              opacity: [0.8, 0, 0.8]
             }}
             transition={{
               duration: 2,
@@ -192,25 +177,25 @@ const FloatingProfile: React.FC = () => {
             }}
           />
 
-          {/* Floating particles */}
-          {[...Array(5)].map((_, i) => (
+          {/* Floating sparkles */}
+          {[...Array(4)].map((_, i) => (
             <motion.div
               key={i}
-              className="absolute w-2 h-2 bg-gradient-to-r from-blue-300 to-purple-300 rounded-full"
+              className="absolute w-2 h-2 bg-gradient-to-r from-yellow-300 to-pink-300 rounded-full"
               animate={{
-                y: [-30, -50, -30],
-                x: [0, Math.sin(i) * 15, 0],
+                y: [-25, -45, -25],
+                x: [0, Math.sin(i) * 20, 0],
                 opacity: [0, 1, 0],
                 scale: [0, 1, 0]
               }}
               transition={{
-                duration: 3,
+                duration: 2.5,
                 repeat: Infinity,
-                delay: i * 0.3,
+                delay: i * 0.4,
                 ease: "easeInOut"
               }}
               style={{
-                left: `${15 + i * 12}%`,
+                left: `${20 + i * 15}%`,
                 top: '-15px'
               }}
             />
@@ -225,7 +210,7 @@ const FloatingProfile: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] flex items-center justify-center p-4"
             onClick={closeQuote}
           >
             <motion.div
