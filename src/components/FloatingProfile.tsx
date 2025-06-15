@@ -5,7 +5,8 @@ import { Quote, X } from 'lucide-react';
 const FloatingProfile: React.FC = () => {
   const [showQuote, setShowQuote] = useState(false);
   const [currentQuote, setCurrentQuote] = useState(0);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [position, setPosition] = useState({ x: 100, y: 100 });
+  const [direction, setDirection] = useState({ x: 1, y: 1 });
 
   const wisdomQuotes = [
     "הידע הוא כוח, אבל היישום שלו הוא הכוח האמיתי",
@@ -42,7 +43,7 @@ const FloatingProfile: React.FC = () => {
     "הפשטות היא התחכום האולטימטיבי",
     "כל מגבלה היא הזדמנות ליצירתיות",
     "בעסק, המוניטין נבנה בשנים ונהרס בדקות",
-    "הטכנולוגיה טובה כמו האנשים שמשתמשים בها",
+    "הטכנולוגיה טובה כמו האנשים שמשתמשים בה",
     "הלמידה מהטעויות חשובה יותר מהימנעות מהן",
     "בעידן הדיגיטלי, הסתגלות היא כישור הישרדות",
     "כל רעיון טוב מתחיל בשאלה טובה",
@@ -60,21 +61,49 @@ const FloatingProfile: React.FC = () => {
     "הדרך הארוכה לפעמים היא הקצרה ביותר"
   ];
 
-  // Initialize random position
+  // Snake-like continuous movement
   useEffect(() => {
-    const updatePosition = () => {
-      const maxX = window.innerWidth - 120;
-      const maxY = window.innerHeight - 120;
-      setPosition({
-        x: Math.random() * Math.max(maxX, 0),
-        y: Math.random() * Math.max(maxY, 0)
+    const moveSnake = () => {
+      setPosition(prevPos => {
+        const speed = 2; // מהירות התנועה
+        const maxX = window.innerWidth - 120;
+        const maxY = window.innerHeight - 120;
+        
+        let newX = prevPos.x + (direction.x * speed);
+        let newY = prevPos.y + (direction.y * speed);
+        let newDirectionX = direction.x;
+        let newDirectionY = direction.y;
+
+        // בדיקת גבולות ושינוי כיוון
+        if (newX <= 0 || newX >= maxX) {
+          newDirectionX = -direction.x;
+          newX = Math.max(0, Math.min(maxX, newX));
+        }
+        
+        if (newY <= 0 || newY >= maxY) {
+          newDirectionY = -direction.y;
+          newY = Math.max(0, Math.min(maxY, newY));
+        }
+
+        // עדכון כיוון אם השתנה
+        if (newDirectionX !== direction.x || newDirectionY !== direction.y) {
+          setDirection({ x: newDirectionX, y: newDirectionY });
+        }
+
+        return { x: newX, y: newY };
       });
     };
 
-    updatePosition();
-    const interval = setInterval(updatePosition, 8000); // Change position every 8 seconds
-
+    const interval = setInterval(moveSnake, 50); // עדכון כל 50ms לתנועה חלקה
     return () => clearInterval(interval);
+  }, [direction]);
+
+  // Initialize random direction
+  useEffect(() => {
+    setDirection({
+      x: Math.random() > 0.5 ? 1 : -1,
+      y: Math.random() > 0.5 ? 1 : -1
+    });
   }, []);
 
   const handleClick = () => {
@@ -101,15 +130,15 @@ const FloatingProfile: React.FC = () => {
         transition={{ 
           scale: { duration: 0.5, delay: 2 },
           opacity: { duration: 0.5, delay: 2 },
-          x: { duration: 4, ease: "easeInOut" },
-          y: { duration: 4, ease: "easeInOut" }
+          x: { duration: 0 }, // תנועה מיידית
+          y: { duration: 0 }  // תנועה מיידית
         }}
         whileHover={{ 
-          scale: 1.1,
-          rotate: [0, -5, 5, -5, 0],
+          scale: 1.2,
+          rotate: [0, -10, 10, -10, 0],
           transition: { duration: 0.5 }
         }}
-        whileTap={{ scale: 0.95 }}
+        whileTap={{ scale: 0.9 }}
         onClick={handleClick}
       >
         <div className="relative">
@@ -117,7 +146,7 @@ const FloatingProfile: React.FC = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full blur-lg opacity-60 animate-pulse" />
           
           {/* Profile image container */}
-          <div className="relative w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-2xl bg-gradient-to-br from-blue-500 to-purple-500">
+          <div className="relative w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-2xl bg-gradient-to-br from-blue-500 to-purple-500">
             <img 
               src="/my-image.jpg" 
               alt="זאב אבינר" 
@@ -127,7 +156,7 @@ const FloatingProfile: React.FC = () => {
                 target.style.display = 'none';
                 const parent = target.parentElement;
                 if (parent) {
-                  parent.innerHTML = '<div class="w-full h-full bg-gradient-to-br from-orange-400 to-yellow-500 flex items-center justify-center text-white text-2xl font-bold">ז</div>';
+                  parent.innerHTML = '<div class="w-full h-full bg-gradient-to-br from-orange-400 to-yellow-500 flex items-center justify-center text-white text-3xl font-bold">ז</div>';
                 }
               }}
             />
@@ -135,9 +164,9 @@ const FloatingProfile: React.FC = () => {
 
           {/* Click indicator */}
           <motion.div
-            className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg"
+            className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg"
             animate={{ 
-              scale: [1, 1.2, 1],
+              scale: [1, 1.3, 1],
               rotate: [0, 180, 360]
             }}
             transition={{ 
@@ -146,41 +175,43 @@ const FloatingProfile: React.FC = () => {
               ease: "easeInOut"
             }}
           >
-            <img 
-              src="/click-on-me.png" 
-              alt="לחץ עלי" 
-              className="w-4 h-4"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.style.display = 'none';
-                const parent = target.parentElement;
-                if (parent) {
-                  parent.innerHTML = '<Quote size={12} className="text-white" />';
-                }
-              }}
-            />
+            <Quote size={16} className="text-white" />
           </motion.div>
 
+          {/* Trail effect */}
+          <motion.div
+            className="absolute inset-0 rounded-full border-2 border-blue-400/30"
+            animate={{
+              scale: [1, 1.5, 1],
+              opacity: [0.5, 0, 0.5]
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeOut"
+            }}
+          />
+
           {/* Floating particles */}
-          {[...Array(3)].map((_, i) => (
+          {[...Array(5)].map((_, i) => (
             <motion.div
               key={i}
               className="absolute w-2 h-2 bg-gradient-to-r from-blue-300 to-purple-300 rounded-full"
               animate={{
-                y: [-20, -40, -20],
-                x: [0, Math.sin(i) * 10, 0],
+                y: [-30, -50, -30],
+                x: [0, Math.sin(i) * 15, 0],
                 opacity: [0, 1, 0],
                 scale: [0, 1, 0]
               }}
               transition={{
                 duration: 3,
                 repeat: Infinity,
-                delay: i * 0.5,
+                delay: i * 0.3,
                 ease: "easeInOut"
               }}
               style={{
-                left: `${20 + i * 15}%`,
-                top: '-10px'
+                left: `${15 + i * 12}%`,
+                top: '-15px'
               }}
             />
           ))}
