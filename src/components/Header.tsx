@@ -57,7 +57,7 @@ const Header: React.FC = () => {
             זאב אבינר
           </motion.h1>
 
-          <div className="text-xl md:text-2xl mb-8 opacity-90 min-h-[3rem] flex items-center justify-center">
+          <div className="text-xl md:text-2xl mb-8 opacity-90 min-h-[4rem] flex items-center justify-center">
             <AnimatedText />
           </div>
         </motion.div>
