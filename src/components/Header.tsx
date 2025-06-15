@@ -1,6 +1,5 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles } from 'lucide-react';
 import AnimatedText from './AnimatedText';
 
 const Header: React.FC = () => {
@@ -43,9 +42,13 @@ const Header: React.FC = () => {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-            className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full mb-6 shadow-2xl"
+            className="inline-flex items-center justify-center w-20 h-20 rounded-full mb-6 shadow-2xl overflow-hidden"
           >
-            <Sparkles size={32} className="text-white" />
+            <img 
+              src="/profile-image.jpg" 
+              alt="זאב אבינר" 
+              className="w-full h-full object-cover"
+            />
           </motion.div>
 
           <motion.h1
