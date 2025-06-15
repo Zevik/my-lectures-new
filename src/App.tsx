@@ -1,25 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Header from './components/Header';
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
 import LecturesSection from './components/LecturesSection';
 import AboutSection from './components/AboutSection';
 import ContactSection from './components/ContactSection';
-import LoadingScreen from './components/LoadingScreen';
 import ScrollProgress from './components/ScrollProgress';
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
   const [activeSection, setActiveSection] = useState('about');
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,16 +36,12 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
-      <AnimatePresence>
-        {isLoading && <LoadingScreen />}
-      </AnimatePresence>
-      
       <ScrollProgress />
       
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
+        transition={{ duration: 0.5 }}
         className="relative"
       >
         <Header />
