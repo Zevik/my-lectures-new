@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 
 const Header: React.FC = () => {
   return (
@@ -64,33 +64,6 @@ const Header: React.FC = () => {
           >
             הרצאות וסדנאות מקצועיות
           </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8 }}
-            className="flex flex-col md:flex-row items-center justify-center gap-6 text-lg opacity-80"
-          >
-            <motion.a
-              href="mailto:zaviner@gmail.com"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 hover:text-blue-300 transition-colors"
-            >
-              <Mail size={20} />
-              <span>zaviner@gmail.com</span>
-            </motion.a>
-            
-            <motion.a
-              href="tel:052-541-0049"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 hover:text-blue-300 transition-colors"
-            >
-              <Phone size={20} />
-              <span>052-541-0049</span>
-            </motion.a>
-          </motion.div>
         </motion.div>
       </div>
 

@@ -1,13 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, User, MessageCircle, Send } from 'lucide-react';
+import { Mail, Phone, User, MessageCircle } from 'lucide-react';
 
 const ContactSection: React.FC = () => {
   const contactItems = [
     {
       icon: User,
       title: 'זאב אבינר',
-      subtitle: 'מרצה וכלכלן',
+      subtitle: 'יזם טכנולוגי',
       gradient: 'from-blue-500 to-purple-500'
     },
     {
@@ -23,6 +23,13 @@ const ContactSection: React.FC = () => {
       subtitle: '052-541-0049',
       href: 'tel:052-541-0049',
       gradient: 'from-orange-500 to-red-500'
+    },
+    {
+      icon: MessageCircle,
+      title: 'וואטסאפ',
+      subtitle: '052-541-0049',
+      href: 'https://wa.me/972525410049',
+      gradient: 'from-green-600 to-green-400'
     }
   ];
 
@@ -78,7 +85,7 @@ const ContactSection: React.FC = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
           {contactItems.map((item, index) => {
             const Icon = item.icon;
             const Component = item.href ? 'a' : 'div';
@@ -88,76 +95,40 @@ const ContactSection: React.FC = () => {
                 key={index}
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
+                className="h-full"
               >
                 <Component
-                  {...(item.href ? { href: item.href } : {})}
-                  className="block"
+                  {...(item.href ? { href: item.href, target: item.href.startsWith('https') ? '_blank' : undefined, rel: item.href.startsWith('https') ? 'noopener noreferrer' : undefined } : {})}
+                  className="block h-full"
                 >
                   <motion.div
-                    className="bg-white/10 backdrop-blur-md rounded-2xl p-8 text-center border border-white/20 hover:bg-white/20 transition-all duration-300 group cursor-pointer"
+                    className="bg-white/10 backdrop-blur-md rounded-2xl p-6 text-center border border-white/20 hover:bg-white/20 transition-all duration-300 group cursor-pointer h-full flex flex-col justify-center min-h-[200px]"
                     whileHover={{ y: -8, scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
                     <motion.div
                       whileHover={{ rotate: 360, scale: 1.2 }}
                       transition={{ duration: 0.5 }}
-                      className={`inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br ${item.gradient} rounded-full mb-6 shadow-lg group-hover:shadow-xl`}
+                      className={`inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br ${item.gradient} rounded-full mb-4 shadow-lg group-hover:shadow-xl mx-auto`}
                     >
                       <Icon size={28} />
                     </motion.div>
                     
-                    <h3 className="text-xl font-bold mb-2 group-hover:text-blue-300 transition-colors">
+                    <h3 className="text-lg font-bold mb-2 group-hover:text-blue-300 transition-colors">
                       {item.title}
                     </h3>
                     
-                    <p className="opacity-80 group-hover:opacity-100 transition-opacity">
+                    <p className="opacity-80 group-hover:opacity-100 transition-opacity text-sm">
                       {item.subtitle}
                     </p>
-
-                    {item.href && (
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0 }}
-                        whileHover={{ opacity: 1, scale: 1 }}
-                        className="mt-4"
-                      >
-                        <Send size={16} className="mx-auto text-blue-300" />
-                      </motion.div>
-                    )}
                   </motion.div>
                 </Component>
               </motion.div>
             );
           })}
         </div>
-
-        {/* Call to action */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          viewport={{ once: true }}
-          className="text-center mt-16"
-        >
-          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold mb-4">
-              מוכן להתחיל?
-            </h3>
-            <p className="text-lg opacity-90 mb-6">
-              בואו נדבר על איך אני יכול לעזור לכם להצליח
-            </p>
-            <motion.a
-              href="mailto:zaviner@gmail.com"
-              className="btn-primary inline-flex items-center gap-2"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Mail size={20} />
-              <span>שלח הודעה</span>
-            </motion.a>
-          </div>
-        </motion.div>
       </div>
 
       {/* Bottom wave */}
