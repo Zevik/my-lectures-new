@@ -1,6 +1,5 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Star } from 'lucide-react';
 import FloatingProfile from './FloatingProfile';
 
 const Hero: React.FC = () => {
@@ -23,28 +22,6 @@ const Hero: React.FC = () => {
           viewport={{ once: true }}
           className="text-center max-w-4xl mx-auto"
         >
-          <motion.div
-            initial={{ scale: 0 }}
-            whileInView={{ scale: 1 }}
-            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-            viewport={{ once: true }}
-            className="flex justify-center mb-8"
-          >
-            <div className="flex items-center gap-1">
-              {[...Array(5)].map((_, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, scale: 0 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.3 + i * 0.1 }}
-                  viewport={{ once: true }}
-                >
-                  <Star className="w-8 h-8 text-yellow-400 fill-current" />
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -63,7 +40,7 @@ const Hero: React.FC = () => {
             className="prose prose-lg md:prose-xl max-w-none text-gray-700 leading-relaxed"
           >
             <p className="text-xl md:text-2xl mb-8">
-              אני מציע שלוש הרצאות וסדנאות מרכזיות, המבוססות על ניסיון אישי רב שנים וידע מעמיק בתחומים שונים.
+              שלוש הרצאות וסדנאות מרכזיות, המבוססות על ניסיון אישי רב שנים וידע מעמיק בתחומים שונים.
             </p>
             
             <p className="text-lg md:text-xl mb-8 text-gray-600">
