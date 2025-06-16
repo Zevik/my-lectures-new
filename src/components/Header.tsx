@@ -45,7 +45,7 @@ const Header: React.FC = () => {
             className="inline-flex items-center justify-center w-24 h-24 rounded-full mb-6 shadow-2xl overflow-hidden border-4 border-white/20 relative"
           >
             <img 
-              src="/my-image.jpg" 
+              src="/image.png" 
               alt="זאב אבינר" 
               className="w-full h-full object-cover"
               onError={(e) => {
