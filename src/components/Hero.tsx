@@ -1,16 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowDown, Star } from 'lucide-react';
+import { Star } from 'lucide-react';
 import FloatingProfile from './FloatingProfile';
 
 const Hero: React.FC = () => {
-  const scrollToLectures = () => {
-    const element = document.getElementById('lectures');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
     <section id="about" className="section-padding bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 relative overflow-hidden">
       {/* Background decorative elements */}
@@ -77,29 +70,6 @@ const Hero: React.FC = () => {
               המטרה היא להעניק למשתתפים כלים מעשיים, ידע יישומי ותובנות שיסייעו להם בעסק ובחיים המקצועיים. 
               ההרצאות מועברות מתוך תשוקה אמיתית לתחומים, ובמטרה לתרום מהידע שצברתי.
             </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8 }}
-            viewport={{ once: true }}
-            className="mt-12"
-          >
-            <motion.button
-              onClick={scrollToLectures}
-              className="btn-primary inline-flex items-center gap-2 text-lg"
-              whileHover={{ y: -2 }}
-              whileTap={{ y: 0 }}
-            >
-              <span>גלה את ההרצאות</span>
-              <motion.div
-                animate={{ y: [0, 5, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                <ArrowDown size={20} />
-              </motion.div>
-            </motion.button>
           </motion.div>
         </motion.div>
       </div>

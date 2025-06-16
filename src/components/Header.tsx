@@ -45,22 +45,10 @@ const Header: React.FC = () => {
             className="inline-flex items-center justify-center w-24 h-24 rounded-full mb-6 shadow-2xl overflow-hidden border-4 border-white/20 relative"
           >
             <img 
-              src="/image.png" 
+              src="/my-image copy copy.jpg" 
               alt="זאב אבינר" 
               className="w-full h-full object-cover"
-              onError={(e) => {
-                // Fallback if image doesn't load
-                const target = e.target as HTMLImageElement;
-                target.style.display = 'none';
-                const parent = target.parentElement;
-                if (parent) {
-                  parent.innerHTML = '<div class="w-full h-full bg-gradient-to-br from-orange-400 to-yellow-500 flex items-center justify-center text-white text-2xl font-bold">ז</div>';
-                }
-              }}
             />
-            
-            {/* Glow effect around profile image */}
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-400/30 to-purple-400/30 rounded-full blur-md -z-10" />
           </motion.div>
 
           <motion.h1
