@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Quote, X } from 'lucide-react';
+import { X } from 'lucide-react';
 
 const FloatingProfile: React.FC = () => {
   const [showQuote, setShowQuote] = useState(false);
@@ -147,11 +147,11 @@ const FloatingProfile: React.FC = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-pink-400 to-orange-400 rounded-full blur-lg opacity-60 animate-pulse" />
           
           {/* Click-me image container */}
-          <div className="relative w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-2xl bg-gradient-to-br from-pink-500 to-orange-500">
+          <div className="relative w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-2xl bg-gradient-to-br from-pink-500 to-orange-500 flex items-center justify-center">
             <img 
               src="/click-on-me.png" 
               alt="לחץ עלי" 
-              className="w-full h-full object-cover"
+              className="w-16 h-16 object-contain"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.style.display = 'none';
@@ -218,7 +218,7 @@ const FloatingProfile: React.FC = () => {
               animate={{ scale: 1, rotate: 0 }}
               exit={{ scale: 0, rotate: 180 }}
               transition={{ type: "spring", stiffness: 200, damping: 20 }}
-              className="bg-white rounded-3xl p-8 max-w-md mx-auto shadow-2xl border-4 border-gradient-to-r from-blue-500 to-purple-500 relative"
+              className="bg-white rounded-3xl p-8 max-w-md mx-auto shadow-2xl border-4 border-gradient-to-r from-pink-500 to-orange-500 relative"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close button */}
@@ -229,37 +229,20 @@ const FloatingProfile: React.FC = () => {
                 <X size={16} className="text-gray-600" />
               </button>
 
-              {/* Quote icon */}
-              <div className="text-center mb-6">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full mb-4">
-                  <Quote size={24} className="text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-800">משפט חכמה</h3>
-              </div>
-
               {/* Quote text */}
-              <div className="text-center">
+              <div className="text-center pt-4">
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="text-lg text-gray-700 leading-relaxed mb-6 font-medium"
+                  className="text-lg text-gray-700 leading-relaxed font-medium"
                 >
-                  "{wisdomQuotes[currentQuote]}"
+                  {wisdomQuotes[currentQuote]}
                 </motion.p>
-
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.5 }}
-                  className="text-sm text-gray-500"
-                >
-                  - זאב אבינר
-                </motion.div>
               </div>
 
               {/* Decorative elements */}
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-t-3xl" />
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pink-500 to-orange-500 rounded-t-3xl" />
               
               {/* Sparkle effects */}
               {[...Array(5)].map((_, i) => (
