@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X } from 'lucide-react';
 
 const FloatingProfile: React.FC = () => {
   const [showQuote, setShowQuote] = useState(false);
@@ -107,13 +106,20 @@ const FloatingProfile: React.FC = () => {
     });
   }, []);
 
+  // Auto-hide quote after 2 seconds
+  useEffect(() => {
+    if (showQuote) {
+      const timer = setTimeout(() => {
+        setShowQuote(false);
+      }, 2000); // 2 שניות
+
+      return () => clearTimeout(timer);
+    }
+  }, [showQuote]);
+
   const handleClick = () => {
     setCurrentQuote(Math.floor(Math.random() * wisdomQuotes.length));
     setShowQuote(true);
-  };
-
-  const closeQuote = () => {
-    setShowQuote(false);
   };
 
   return (
@@ -210,27 +216,22 @@ const FloatingProfile: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] flex items-center justify-center p-4"
-            onClick={closeQuote}
+            className="fixed inset-0 bg-black/30 backdrop-blur-sm z-[60] flex items-center justify-center p-4 pointer-events-none"
           >
             <motion.div
               initial={{ scale: 0, rotate: -180 }}
               animate={{ scale: 1, rotate: 0 }}
-              exit={{ scale: 0, rotate: 180 }}
-              transition={{ type: "spring", stiffness: 200, damping: 20 }}
-              className="bg-white rounded-3xl p-8 max-w-md mx-auto shadow-2xl border-4 border-gradient-to-r from-pink-500 to-orange-500 relative"
-              onClick={(e) => e.stopPropagation()}
+              exit={{ scale: 0, rotate: 180, opacity: 0 }}
+              transition={{ 
+                type: "spring", 
+                stiffness: 200, 
+                damping: 20,
+                exit: { duration: 0.3 }
+              }}
+              className="bg-white rounded-3xl p-8 max-w-md mx-auto shadow-2xl relative pointer-events-auto"
             >
-              {/* Close button */}
-              <button
-                onClick={closeQuote}
-                className="absolute top-4 left-4 w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
-              >
-                <X size={16} className="text-gray-600" />
-              </button>
-
               {/* Quote text */}
-              <div className="text-center pt-4">
+              <div className="text-center">
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -241,9 +242,6 @@ const FloatingProfile: React.FC = () => {
                 </motion.p>
               </div>
 
-              {/* Decorative elements */}
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pink-500 to-orange-500 rounded-t-3xl" />
-              
               {/* Sparkle effects */}
               {[...Array(5)].map((_, i) => (
                 <motion.div
