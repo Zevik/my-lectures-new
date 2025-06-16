@@ -200,21 +200,9 @@ const FloatingProfile: React.FC = () => {
           {/* Glow effect */}
           <div className="absolute inset-0 bg-gradient-to-r from-pink-400 to-orange-400 rounded-full blur-lg opacity-60 animate-pulse" />
           
-          {/* Click-me image container */}
+          {/* Click-me emoji container */}
           <div className="relative w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-2xl bg-gradient-to-br from-pink-500 to-orange-500 flex items-center justify-center">
-            <img 
-              src="/image.png" 
-              alt="לחץ עלי" 
-              className="w-16 h-16 object-contain"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.style.display = 'none';
-                const parent = target.parentElement;
-                if (parent) {
-                  parent.innerHTML = '<div class="w-full h-full bg-gradient-to-br from-pink-400 to-orange-500 flex items-center justify-center text-white text-2xl font-bold">👆</div>';
-                }
-              }}
-            />
+            <div className="text-4xl">👆</div>
           </div>
 
           {/* Pulsing ring */}
