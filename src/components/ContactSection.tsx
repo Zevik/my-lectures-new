@@ -6,7 +6,7 @@ const ContactSection: React.FC = () => {
   const contactItems = [
     {
       icon: User,
-      title: 'זאב אבינר',
+      title: 'זאביק אבינר',
       subtitle: 'יזם טכנולוגי',
       gradient: 'from-blue-500 to-purple-500'
     },

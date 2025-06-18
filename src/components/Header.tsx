@@ -50,7 +50,7 @@ const Header: React.FC = () => {
           >
             <img 
               src="/my-image copy copy.jpg" 
-              alt="זאב אבינר" 
+              alt="זאביק אבינר" 
               className="w-full h-full object-cover"
             />
           </motion.div>
@@ -61,7 +61,7 @@ const Header: React.FC = () => {
             transition={{ delay: 0.4 }}
             className="text-5xl md:text-7xl font-bold mb-4 text-shadow"
           >
-            זאב אבינר
+            זאביק אבינר
           </motion.h1>
 
           <div className="text-xl md:text-2xl mb-8 opacity-90 min-h-[4rem] flex items-center justify-center">
