@@ -6,6 +6,7 @@ const FloatingProfile: React.FC = () => {
   const [currentQuote, setCurrentQuote] = useState(0);
   const [position, setPosition] = useState({ x: 100, y: 100 });
   const [direction, setDirection] = useState({ x: 1, y: 1 });
+  const [headerBounds, setHeaderBounds] = useState({ width: 0, height: 0 });
 
   const wisdomQuotes = [
     "החכמה היא לדעת מה לעשות הבא. המיומנות היא לדעת איך לעשות זאת. והסגולה היא לעשות זאת.",
@@ -108,21 +109,42 @@ const FloatingProfile: React.FC = () => {
     "הדרך להצליח היא להתחיל. הדרך להתחיל היא לחלק את המשימות המורכבות למשימות קטנות וניתנות לביצוע ואז להתחיל עם הראשונה."
   ];
 
-  // Snake-like continuous movement
+  // Get header bounds on mount and resize
   useEffect(() => {
+    const updateHeaderBounds = () => {
+      const headerElement = document.querySelector('header');
+      if (headerElement) {
+        const rect = headerElement.getBoundingClientRect();
+        setHeaderBounds({
+          width: rect.width,
+          height: rect.height
+        });
+      }
+    };
+
+    updateHeaderBounds();
+    window.addEventListener('resize', updateHeaderBounds);
+    
+    return () => window.removeEventListener('resize', updateHeaderBounds);
+  }, []);
+
+  // Snake-like continuous movement within header bounds
+  useEffect(() => {
+    if (headerBounds.width === 0 || headerBounds.height === 0) return;
+
     const moveSnake = () => {
       setPosition(prevPos => {
-        const speed = 1.5; // מהירות התנועה
-        const imageSize = 80; // גודל התמונה
-        const maxX = window.innerWidth - imageSize;
-        const maxY = window.innerHeight - imageSize;
+        const speed = 1.5;
+        const imageSize = 80;
+        const maxX = headerBounds.width - imageSize;
+        const maxY = headerBounds.height - imageSize;
         
         let newX = prevPos.x + (direction.x * speed);
         let newY = prevPos.y + (direction.y * speed);
         let newDirectionX = direction.x;
         let newDirectionY = direction.y;
 
-        // בדיקת גבולות ושינוי כיוון
+        // Check bounds and change direction
         if (newX <= 0 || newX >= maxX) {
           newDirectionX = -direction.x;
           newX = Math.max(0, Math.min(maxX, newX));
@@ -133,7 +155,7 @@ const FloatingProfile: React.FC = () => {
           newY = Math.max(0, Math.min(maxY, newY));
         }
 
-        // עדכון כיוון אם השתנה
+        // Update direction if changed
         if (newDirectionX !== direction.x || newDirectionY !== direction.y) {
           setDirection({ x: newDirectionX, y: newDirectionY });
         }
@@ -142,9 +164,9 @@ const FloatingProfile: React.FC = () => {
       });
     };
 
-    const interval = setInterval(moveSnake, 30); // עדכון כל 30ms לתנועה חלקה יותר
+    const interval = setInterval(moveSnake, 30);
     return () => clearInterval(interval);
-  }, [direction]);
+  }, [direction, headerBounds]);
 
   // Initialize random direction
   useEffect(() => {
@@ -154,12 +176,12 @@ const FloatingProfile: React.FC = () => {
     });
   }, []);
 
-  // Auto-hide quote after 2 seconds
+  // Auto-hide quote after 6 seconds (changed from 2 seconds)
   useEffect(() => {
     if (showQuote) {
       const timer = setTimeout(() => {
         setShowQuote(false);
-      }, 2000); // 2 שניות
+      }, 6000); // 6 שניות במקום 2
 
       return () => clearTimeout(timer);
     }
@@ -170,11 +192,16 @@ const FloatingProfile: React.FC = () => {
     setShowQuote(true);
   };
 
+  // Only render if header bounds are available
+  if (headerBounds.width === 0 || headerBounds.height === 0) {
+    return null;
+  }
+
   return (
     <>
-      {/* Floating Click-Me Image */}
+      {/* Floating Click-Me Image - positioned relative to header */}
       <motion.div
-        className="fixed cursor-pointer z-50"
+        className="absolute cursor-pointer z-50"
         style={{
           left: position.x,
           top: position.y,

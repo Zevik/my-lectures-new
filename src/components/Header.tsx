@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import AnimatedText from './AnimatedText';
+import FloatingProfile from './FloatingProfile';
 
 const Header: React.FC = () => {
   return (
@@ -30,6 +31,9 @@ const Header: React.FC = () => {
 
       {/* Gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20" />
+
+      {/* Floating Profile Component - positioned within header */}
+      <FloatingProfile />
 
       <div className="container mx-auto px-6 py-16 relative z-10">
         <motion.div
